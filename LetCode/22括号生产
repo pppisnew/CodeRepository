@@ -1,0 +1,26 @@
+
+public List<String> generateParenthesis(int n) {
+        List<String> ans = new ArrayList<>();
+        Structure(ans, new StringBuffer(), 0, 0, n);
+        return ans;
+    }
+
+    public void Structure(List<String> ans, StringBuffer str, int left, int right, int max){//str 表示拼接字符，left表示左括号，r同理，max表示括号的最大数目
+        if(str.length() == max * 2){//两括号之和的最大值为max的两倍
+            ans.add(str.toString());
+            return ;
+        }
+
+        if(left < max){//若左括号没有大于max则可以继续放入（以保证该字符串不会违法
+            str.append("(");
+            Structure(ans, str, left + 1, right, max);//递归穷举
+            str.deleteCharAt(str.length() - 1);//还原，以便于右括号的穷举
+        }
+
+        if(right < left){// 若右括号的数量不大于左括号的数量则可以继续放入）保证所有的）都有可以配对的（
+            str.append(")");
+            Structure(ans, str, left, right + 1, max);//递归穷举
+            str.deleteCharAt(str.length() - 1);//还原
+        }
+
+    }
