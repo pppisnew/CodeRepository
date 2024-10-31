@@ -1,0 +1,31 @@
+public static int titleToNumber(String columnTitle) {//本质是将字符串装换位一串数字，然后转26进制
+        int[] cnt = new int[columnTitle.length() + 1];//从1下标开始记录
+        int ans = 0;
+
+        for (int i = 0; i < columnTitle.length(); i++) {//将字符串转化为数字
+            cnt[i + 1] = columnTitle.charAt(i) - 'A' + 1;
+            //System.out.println("cnt" + i + "=" + cnt[i]);
+        }
+
+        for (int i = columnTitle.length(), j = 0; i >= 1; i--, j++) {//根据进制装换原理进行转换
+            int p = pow(26, j);
+            //System.out.println("p" + "=" + p + "cnt" + i + "=" + cnt[i]);
+            ans += cnt[i] * p;
+        }
+
+        return ans;
+    }
+
+
+    public static int pow(int a, int b){//简单的指数函数
+
+        if(b == 0)
+            return 1;
+
+        int n = 1;
+        for (int i = 0; i < b; i++) {
+            n *= a;
+        }
+
+        return n;
+    }
