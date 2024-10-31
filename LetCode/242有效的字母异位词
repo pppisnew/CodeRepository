@@ -1,0 +1,28 @@
+public boolean isAnagram(String s, String t) {
+        int[] sCnt = new int[26];
+        int[] tCnt = new int[26];//记录字符出现次数
+
+        if(s.length() != t.length())//如果两字符串长度不等，则直接false
+            return false;
+
+        for (int i = 0; i < s.length(); i++) {//遍历两字符串，记录出现的所有字符及其出现次数
+            char c = s.charAt(i);
+            char c1 = t.charAt(i);
+            int j = c - 'a';
+            int j1 = c1 - 'a';
+
+            sCnt[j] ++;
+            tCnt[j1] ++;
+        }
+
+
+        for (int i = 0; i < s.length(); i++) {//判断两字符串出现字符及其数量是否相等
+            char c = s.charAt(i);
+            int j = c - 'a';
+
+            if(sCnt[j] != tCnt[j])
+                return false;
+        }
+
+        return true;
+    }
