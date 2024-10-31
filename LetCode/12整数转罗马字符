@@ -1,0 +1,34 @@
+const pair<int, string> valueMap[] = {//打表记录特殊对应值
+    {1000, "M"},
+    {900,  "CM"},
+    {500,  "D"},
+    {400,  "CD"},
+    {100,  "C"},
+    {90,   "XC"},
+    {50,   "L"},
+    {40,   "XL"},
+    {10,   "X"},
+    {9,    "IX"},
+    {5,    "V"},
+    {4,    "IV"},
+    {1,    "I"},
+};
+
+class Solution {
+public:
+    string intToRoman(int num) {
+        string ans;
+
+        for(auto &[key, value] : valueMap){//属于pair的增强for
+            while(num >= key){//已知所有给出的数都是有规律的数从小到大一个个叠加而成
+                num -= key;//则反过来也成立，所有的数都可以通过减去不超过本身的最大符号值而为0
+                ans += value;
+            }
+
+            if(num == 0)
+            return ans;
+        }
+
+        return ans;
+    }
+};
