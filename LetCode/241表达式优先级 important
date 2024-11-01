@@ -1,0 +1,42 @@
+vector<int> diffWaysToCompute(string expression) {
+        vector<int> ans;//记录当前层本函数内的最终可能值
+
+        bool flag = false;
+        for(auto c : expression){
+            if(!isdigit(c)){//若存在运算符
+                flag = true;
+                break;
+            }
+        }
+
+        if(flag){//若有运算符，则进行运算
+
+            for(int i = 0; i < expression.size(); i++){
+                char c = expression[i];
+
+                if(isdigit(c))//寻找运算符
+                    continue;
+
+                vector<int> left = diffWaysToCompute(expression.substr(0,i));//递归左边的所有可能值
+                vector<int> right = diffWaysToCompute(expression.substr(i + 1));//递归右边的所有可能值
+
+                for(auto l : left){//依照本次的运算符对递归的到的所有可能值进行处理
+                    for(auto r : right){
+                        if(c == '+')
+                            ans.push_back(l + r);
+                        else if(c == '-'){
+                            ans.push_back(l - r);
+                        }else{
+                            ans.push_back(l * r);
+                        }
+                    }
+                }
+
+            }
+
+        }else{//没有运算符直接返回原数字即可
+            ans.push_back(stof(expression));//将字符串转换为整形
+        }
+
+        return ans;
+    }
