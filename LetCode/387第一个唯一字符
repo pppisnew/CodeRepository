@@ -1,0 +1,15 @@
+int firstUniqChar(string s) {
+        int cnt[26];//记录字符出现次数
+
+        for(auto str : s){//统计字符出现次数
+            cnt[str - 'a'] ++;
+        }
+
+        for(int i = 0; i < s.size(); i++){//寻找第一个出现次数为一的字符的下标
+            int j = s[i] - 'a';
+            if(cnt[j] == 1)
+                return i;
+        }
+
+        return -1;
+    }
