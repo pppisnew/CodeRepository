@@ -1,0 +1,25 @@
+bool canConstruct(string ransomNote, string magazine) {
+
+        if(ransomNote.size() > magazine.size())//因为字符仓库中的每一个字符只能使用一次
+        return false;//所有若是字符仓库的长度小于要组成的字符，则一定不可能实现
+
+        vector<int> s(26);
+
+        for(int i = 0; i < magazine.size(); i ++){//记录字符仓库中的字符及其数量
+            s[magazine[i] - 'a'] ++;
+            
+        }
+
+        for(int i = 0; i < ransomNote.size(); i++){//依次拿取字符仓库中的字符，并判断是否足够和是否存在
+
+            if(s[ransomNote[i] - 'a'] == 0)
+                return false;
+            else
+                s[ransomNote[i] - 'a'] --;
+
+            if(s[ransomNote[i] - 'a'] < 0)
+                return false;
+        }
+
+        return true;
+    }
