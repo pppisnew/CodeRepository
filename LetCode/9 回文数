@@ -1,0 +1,35 @@
+ bool isPalindrome(int x) {//不转换为字符串使用翻转函数
+
+        if(x < 0)//因为一个数只能有一个负号
+            return false;
+
+        int n = x;
+        int idx = 0;
+        int rcd[40];//将数字的每一位存入数组
+
+        while(n){//将整形转换为数组
+            int t = n % 10;
+            n /= 10;
+            rcd[idx ++] = t;
+        }
+
+        for(int i = 0; i < idx / 2; i++){//对其首尾进行匹配,其中i < idx / 2可以有效减少耗时
+            if(rcd[i] != rcd[idx - i - 1])
+                return false;
+        }
+
+        return true;
+    }
+
+    ------------------------------------------------------
+     bool isPalindrome(int x) {
+
+        if(x < 0)//因为一个数只能有一个负号
+            return false;
+
+        string s = to_string(x);//将数字转换为字符串
+        string s1 = s;
+        reverse(s1.begin(), s1.end());//将副本字符串翻转
+
+        return s == s1 ? true : false;//进行回文判断
+    }
