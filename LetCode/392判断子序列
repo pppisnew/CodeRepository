@@ -1,0 +1,17 @@
+bool isSubsequence(string s, string t) {
+
+        if(s == t)//若子序列为其本身，则返回true
+            return true;
+        
+        int i = 0;//记录s字符串中待匹配的字符的下标
+        for(auto c : t){//遍历t中的每一个字符
+            
+            if(s[i] == c)//若相等则下标加一
+                ++i;
+            
+            if(i == s.size())//当s中所有的字符都匹配完成，则返回true
+                return true;//因为是顺着t字符串中的顺序进行的判断所以s中的顺序问题也一并被解决
+        }
+
+        return false;
+    }
