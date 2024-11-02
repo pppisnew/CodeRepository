@@ -1,0 +1,22 @@
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+            vector<vector<string>> ans;//记录分类结果
+            unordered_map<string, vector<string>> path;//记录字符组
+
+            if(strs.size() == 1){//若是只有一个字符串，则直接放入答案返回即可
+                ans.push_back(strs);
+                return ans;
+            }
+
+            for(auto &s : strs){//遍历所有字符串
+                string key = s;
+                sort(key.begin(), key.end());//对字符组进行排序，提取成统一规律的字符组
+
+                path[key].emplace_back(s);//将同一字符组的字符串放入一个容器中，形成分类
+            }
+
+            for(auto i = path.begin(); i != path.end(); i++){//记录所有容器，完成分类
+                ans.push_back(i->second);
+            }
+            
+            return ans;
+        }
