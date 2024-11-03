@@ -1,0 +1,49 @@
+class Solution {
+public :
+    const int INF = 0x3f3f3f3f;//常量，一个很大的正整数
+
+public:
+    int minTimeToReach(vector<vector<int>>& moveTime) {
+        priority_queue<pair<int, pair<int, int>>,
+                        vector<pair<int, pair<int, int>>>, greater<>> que;//创建小根堆
+
+        int n = moveTime.size();
+        int m = moveTime[0].size();
+
+        vector<vector<int>> dist(n, vector<int>(m, INF));//记录每个坐标的最短用时，初始化值为INF。
+        dist[0][0] = 0;//坐标0,0的房间的用时为0，既为起点。
+        que.push({0, {0,0}});//first 为最短用时且只能为用时，因为pair是优先根据first排序的。
+
+        while(que.size() > 0){//堆内不为空就继续进行最短用时的迭代,此处不能用empty，我也不知道为啥
+            auto [nowDist, idx] = que.top();//弹出堆顶，由于是小根堆，所以堆顶一定是当前坐标的最短用时
+            que.pop();
+
+            auto [x, y] = idx;//提取当前位置的坐标
+
+            if(dist[x][y] != nowDist){//当前坐标错误
+                continue;
+            }
+
+            int time = 1;//每次进入下一个房间的增加用时
+
+            //因为本次坐标是当前状态下的最短用时，所有以本次坐标为起点更新其四周的用时
+            for(auto [i, j] : {(pair<int, int>){x - 1, y}, {x + 1, y}, {x, y - 1}, {x, y + 1}}){
+
+                if(i >= 0 && i < n && j >= 0 && j < m){//坐标不违法
+
+                    int newDist = max(nowDist, moveTime[i][j]) + time;//求最短用时为什么用的是max？
+                    //因为要保证当前更新后的用时newDist大于允许移动的用时moveTime[i][j]
+
+                    //进入这个if就说明更新前的nowDist小于之前记录的最短用时
+                    if(newDist < dist[i][j]){
+                        //更新记录最短用时的函数,此时记录的就是更新后的起点到（i，j）点的最短用时
+                        dist[i][j] = newDist;
+                        que.push({newDist, {i, j}});//记录更新后的坐标的最短用时
+                    }
+                }
+            }
+        }
+        
+        return dist[n - 1][m - 1];//返回起点到（n，m）点的最短用时
+    }
+};
