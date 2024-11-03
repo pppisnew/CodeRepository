@@ -1,0 +1,37 @@
+class Solution {
+private:
+    vector<vector<string>> ans;//返回的答案
+    vector<vector<bool>> path;//[i][j]表示下标i到下标j是否是回文串
+    vector<string> rcd;//记录递归的回文串
+    int n;
+
+public:
+    vector<vector<string>> partition(string s) {
+        n = s.size();
+        path.assign(n, vector<bool>(n, true));//全部初始化为true;
+
+        for(int i = n - 1; i >= 0; -- i)
+            for(int j = i + 1; j < n; ++ j){//特定的双指针遍历方法，能够动态预处理字符串的回文信息
+                path[i][j] = (s[i] == s[j]) && path[i + 1][j - 1];
+            }
+
+        dfs(s, 0);
+
+        return ans;
+    }
+
+    void dfs(string s, int i){
+        if(i == n){//字符串变量完成
+            ans.push_back(rcd);
+            return ;
+        }
+
+        for(int j = i; j < n; ++ j){//判断下标i到j之间的字符串是否是回文串
+            if(path[i][j]){
+                rcd.push_back(s.substr(i, j - i + 1));//若是则记录下来
+                dfs(s, j + 1);//更深层次的递归
+                rcd.pop_back();//还原
+            }
+        }
+    }
+};
