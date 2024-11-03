@@ -1,0 +1,33 @@
+vector<char> rcd = {'a', 'A', 'e', 'E', 'i', 'I', 'o', 'O', 'u', 'U'};
+    unordered_map<char, bool> mp;//使用容器简便，但是更消耗时间复杂度
+    
+
+    string reverseVowels(string s) {
+
+        for(auto c : rcd){//把所有的元音字母打上sign
+            mp[c] = true;
+        }
+
+        int left = 0;
+        int right = s.size() - 1;
+
+        if(s.size() == 1)
+            return s;
+
+        while(left < right){//双指针，保证每个元素只被遍历一遍
+
+            while(left < right && !mp[s[left]])
+                ++ left;
+            while(left < right && !mp[s[right]])
+                -- right;
+
+            if(left < right){
+                swap(s[left], s[right]);
+                ++ left;
+                -- right;
+            }
+                
+        }
+
+        return s;
+    }
