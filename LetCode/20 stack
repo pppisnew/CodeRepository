@@ -1,0 +1,31 @@
+class Solution {
+    public boolean isValid(String s) {
+        int n = s.length();
+
+        if(n % 2 != 0){//若长度是奇数则说明一定多出一个括号，所以一定不有效
+            return false;
+        }
+
+        Map<Character, Character> mp = new HashMap<>(){{//注意要有两个大括号，以右括号为key
+            put(')', '(');
+            put('}', '{');
+            put(']', '[');
+        }};
+        Deque<Character> stack = new ArrayDeque<>();//建立栈
+
+        for(int i = 0; i < n; i ++){
+            char c = s.charAt(i);
+
+            if(mp.containsKey(c)){//判断是否是右括号
+                if(stack.isEmpty() || stack.peek() != mp.get(c)){//是右括号时，栈为空或者没有与其匹配的左括号，则无效。
+                    return false;
+                }
+                stack.pop();//若有效则弹出对应左括号
+            }else{
+                stack.push(c);//为左括号，直接放入栈顶，一定是先匹配栈顶的左括号，这样才能保证括号一一匹配。
+            }
+        }
+
+        return stack.isEmpty();//全部匹配完后若是栈内还要左括号的存在则无效
+    }
+}
