@@ -1,0 +1,40 @@
+class Solution {
+    private boolean[][] path;
+    private int n;
+    
+    public int minCut(String s) {
+        //每次都找最大回文子串
+        if(s.length() == 1){//若字符只有一个，则不需要分割
+            return 0;
+        }
+
+        n = s.length();
+        path = new boolean[n][n];//---------------
+        
+        for(int i = 0; i < n; i ++){
+            Arrays.fill(path[i], true);
+        }
+            
+        for(int i = n - 1; i >= 0; -- i){
+            for(int j = i + 1; j < n; ++ j){
+                path[i][j] = (s.charAt(i) == s.charAt(j)) && path[i + 1][j - 1];
+            }
+        }//----------------------经典回文预处理
+
+        int[] ans = new int[n];//类似dijksta记录0到n的最少分割次数
+        Arrays.fill(ans, Integer.MAX_VALUE);//默认为最大值
+        for(int i = 0; i < n; i ++){
+            if(path[0][i]){//若下标0-i是回文
+                ans[i] = 0;//分割次数为0次
+            }else{//若下标0-1不是回文
+                for(int j = 0; j < i; j ++){//依次判断j-i是否是回文
+                    if(path[j + 1][i]){//若j+1到i是回文
+                        ans[i] = Math.min(ans[i], ans[j] + 1);//判断现在记录的0-i的分割次数与0-j加上j+1到i的那一次分割次数的大小。
+                    }
+                }
+            }
+        }
+
+        return ans[n - 1];
+    }
+}
