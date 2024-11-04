@@ -1,0 +1,23 @@
+class Solution {
+    public String countAndSay(int n) {
+        String ans = "1";//S1的值为"1",默认值
+
+        for(int i = 2; i <= n; i ++){
+            StringBuilder sb = new StringBuilder();//用于记录和拼接当前记录的字符串
+
+            int begin = 0, end = 0;//记录当前遍历的字符串的起点与终点的下标
+
+            while(end < ans.length()){//遍历完当前的字符串
+                while(end < ans.length() && ans.charAt(end) == ans.charAt(begin))//获得相同字符的长度
+                end ++;
+            
+                sb.append(Integer.toString(end - begin)).append(ans.charAt(begin));//记录当前相同字符的数量并将其拼接至sb中,链式编程。
+                begin = end;//记录下次开始的下标
+            }
+
+            ans = sb.toString();//记录，若当前i为n，则循环开始时ans记录的便是下标n-1的编码，结束时更新为n的编码。
+        }
+
+        return ans;
+    }
+}
