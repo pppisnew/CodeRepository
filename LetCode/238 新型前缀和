@@ -1,0 +1,22 @@
+class Solution {
+    public int[] productExceptSelf(int[] nums) {
+        
+        int n = nums.length;
+        int[] ans = new int[n];
+
+        //此时ans数组记录的是数组中下标为i的数的左侧的所有数的乘积
+        ans[0] = 1;//下标为0，左侧没有数，故为0
+        for(int i = 1; i < n; i ++){
+            ans[i] = nums[i - 1] * ans[i - 1];//依次储存所有i的左侧的数的乘积
+        }
+
+        //此时ans数组记录的是答案
+        int r = 1;//r记录的是i右边的所有数的乘积，此时设r为最右侧的数，故r的值为0，如上。
+        for(int i = n - 1; i >= 0; -- i){
+            ans[i] = ans[i] * r;//i的左边所有数的乘积*右边所有数的乘积
+            r = r * nums[i];//依次变换r所代表的值
+        }
+
+        return ans;
+    }
+}
