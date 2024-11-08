@@ -1,0 +1,21 @@
+class Solution {
+    public int findDuplicate(int[] nums) {
+        /*
+        思路：利用哈希表查重
+        */
+        HashSet<Integer> rcd = new HashSet<>();
+        int n = nums.length;
+        if(n == 1){
+            return nums[1];
+        }
+
+        for(int i = 0; i <= n; i ++){
+            if(rcd.contains(nums[i])){
+                return nums[i];
+            }else{
+                rcd.add(nums[i]);
+            }
+        }
+        return 0;
+    }
+}
