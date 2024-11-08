@@ -1,0 +1,35 @@
+class Solution {
+    public String longestPalindrome(String s) {
+        /*
+        思路：以确定的回文子串为中心向两端扩散以求出最长子串
+        */
+        if(s.length() == 1){//如果只有一的长度则自身就是最长回文子串
+            return s;
+        }
+        
+        String ans = "";
+        int start = 0, end = 0;//记录起始下标与结束下标
+        int n = s.length();
+        for(int i = 0; i < n; i ++){
+            int size = fun(s, i, i);//长度奇数位
+            int size1 = fun(s, i, i + 1);//长度偶数位
+
+            size = Math.max(size, size1);
+            if(size > end - start){//长度可更新
+                start = i - (size - 1) / 2;
+                end = i + size / 2;//巧妙的计算方式，利用计算机除法的特点可以不论长度是奇还是偶，都可以计算出子串的起始与结束下标
+            }
+        }
+
+        return s.substring(start, end + 1);//闭左开右
+    }
+
+    public int fun(String s, int left, int right){
+        while(left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)){//依次向两边扩散
+            left --;
+            right ++;
+        }
+
+        return right - left - 1;//因为此时的left与right是不符合要求的所以right - left + 1 - 2；
+    }
+}
