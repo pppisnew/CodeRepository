@@ -1,0 +1,22 @@
+class Solution {
+    public void moveZeroes(int[] nums) {
+        /*
+        思路：遇到非零的数不管那么多直接放一起，不用去想那些乱七八糟的判断
+        */
+        int n = nums.length;
+        int left = 0, right = 0;//right是不断右移的指针，left是指向非零数组的下一个插入点
+        while(right < n){
+            if(nums[right] != 0){//只要遇到非零的数，不管三七二十一直接放入非零数组，省去那一系列的判断
+                swap(nums, left, right);
+                left ++;//left右移
+            }
+            right ++;
+        }
+    }
+
+    public void swap(int[] f, int i, int j){
+        int temp = f[i];
+        f[i] = f[j];
+        f[j] = temp;
+    }
+}
