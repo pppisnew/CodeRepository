@@ -1,0 +1,19 @@
+class Solution {
+    public boolean containsDuplicate(int[] nums) {
+        /*
+        思路 set是去重的一大利器，也是哈希思路的一方面。
+        */
+        HashSet<Integer> rcd = new HashSet<>();//set是检查重复元素的一大利器
+        int n = nums.length;
+
+        for(int i = 0; i < n; i ++){
+            if(rcd.contains(nums[i])){
+                return true;
+            }else{
+                rcd.add(nums[i]);
+            }
+        }
+
+        return false;
+    }
+}
