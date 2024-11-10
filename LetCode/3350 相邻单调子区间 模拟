@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int maxIncreasingSubarrays(vector<int>& nums) {
+        int ans = 0, cnt = 0, preCnt = 0;//分别记录答案，当前单调区间长度，前一个单调区间长度。
+        int n = nums.size();
+
+        for(int i = 0; i < n; i ++){
+            cnt ++;//区间长度先加再判断，因为初始自身也算。
+            if(i == n - 1 || nums[i] >= nums[i + 1]){//i == n-1用于避免越界
+                ans = max({ans, cnt / 2, min(cnt, preCnt)});
+                /*
+                若两个子区间在一个单调区间内，则maxk = cnt/2
+                若是两个相邻区间，则maxk = min(cnt, precnt)，保证两区间长度相同
+                */
+                preCnt = cnt;//迭代
+                cnt = 0;//复原
+            }
+        }
+
+        return ans;
+    }
+};
