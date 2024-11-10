@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int maxFrequency(vector<int>& nums, int k, int numOperations) {
+        unordered_map<int, int> cnt;//除了知道只需要查询的情况外，都使用map的有序储存，这里的cnt就是只需要查询
+        map<int, int> diff;
+        int n = nums.size();
+
+        /*这里的差分数组的前缀和代表的就是‘有多少个数’能够‘形成’当前的数的数量
+        */
+        for(auto x : nums){
+            cnt[x] ++;
+            diff[x];//存入diff，保证遍历diff时能够遍历到x
+            diff[x - k] += 1;
+            diff[x + k + 1] -= 1;//差分操作，将所有可形成的数的数量加一
+        }
+
+        int ans = 0, sum = 0;
+        for(auto& [x, d] : diff){
+            sum += d;//形成前缀和，代表的就是能形成x的数的理想数量
+            ans = max(ans, min(numOperations + cnt[x], sum));
+            /*x 自身出现的次数 cnt，得到 x 的最大频率为
+            cnt+min(sumD−cnt,numOperations)=min(sumD,cnt+numOperations)*/
+        }
+
+        return ans;
+    }
+};
