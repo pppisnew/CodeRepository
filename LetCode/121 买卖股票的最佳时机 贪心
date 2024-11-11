@@ -1,0 +1,15 @@
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        /*思路：每天都思考如果我要在今天卖出，那么我应该在几天前购买股票
+        */
+        int n = prices.size();
+        int pre = prices[0], ans = 0;//pre记录历史最低点
+        for(int i = 0; i < n; i ++){
+            ans = max(ans, prices[i] - pre);//计算今天与历史最低点的价格差
+            pre = min(pre, prices[i]);//更新历史最低点
+        }
+
+        return ans;
+    }
+};
