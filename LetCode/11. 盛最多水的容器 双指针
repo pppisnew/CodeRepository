@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int maxArea(vector<int>& height) {
+        /*思路：S = min(height[i], height[j]) * (j - i)。不论下一次移动那个指针
+        (j - i)的值一定减小，所以我们只能保证min(height[i], height[j])的值尽可能变大，
+        故只能移动height小的指针。
+        */
+        int n = height.size();
+        if(n == 2){//如果数组内只有两个值，则最大面积就是两者的最小值
+            return min(height[0], height[1]);
+        }
+
+        int i = 0, j = n - 1, ans = 0;
+        while(i < j){
+            int t = j - i;
+            ans = max(ans, min(height[i] * t, height[j] * t));//计算面积
+            if(height[i] < height[j]){//移动height最小的指针
+                i ++;
+            }else{
+                j --;
+            }
+
+            if(i >= j){
+                break;
+            }
+        }
+        return ans;
+    }
+};
