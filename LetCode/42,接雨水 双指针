@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        /*弄清楚答案的决定性因素，再对各种因素进行逻辑处理，最后用算法进行优化。
+        */
+        int n = height.size();
+        int left = 0, right = n - 1;
+        int leftMax = 0, rightMax = 0;//记录左右经过的最大值
+        int ans = 0;
+
+        while(left < right){
+            leftMax = max(leftMax, height[left]);//每次开始时更新Max
+            rightMax = max(rightMax, height[right]);
+            if(height[left] < height[right]){//接水量的抽象因素就是height大小间的差值
+                ans += leftMax - height[left];
+                left ++;
+            }else{
+                ans += rightMax - height[right];
+                right --;
+            }
+        }
+
+        return ans;
+    }
+};
