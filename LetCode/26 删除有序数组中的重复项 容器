@@ -1,0 +1,18 @@
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        //去重
+        unordered_map<int, bool> mp;
+        int n = nums.size();
+
+        int k = 0;
+        for(const int &x : nums){
+            if(!mp[x]){
+                nums[k ++] = x;
+                mp[x] = true;
+            }
+        }
+
+        return k;
+    }
+};
