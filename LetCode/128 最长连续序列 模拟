@@ -1,0 +1,29 @@
+class Solution {
+public:
+    const int N = 1e5 + 10;
+
+    int longestConsecutive(vector<int>& nums) {
+        unordered_set<int> rcd;
+
+        for(int x : nums){
+           rcd.insert(x);
+        }
+
+        int ans = 0;
+        for(const int &x : nums){
+            if(!rcd.count(x - 1)){//当没有比这个数小一位的数的时候进行判断
+                int tempX = x;
+                int cntLong = 1;
+
+                while(rcd.count(tempX + 1)){//开始记录连续序列的长度
+                    tempX ++;
+                    cntLong ++;
+                }
+
+                ans = max(ans, cntLong);
+            }
+        }
+
+        return ans;
+    }
+};
