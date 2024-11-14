@@ -1,0 +1,23 @@
+class Solution {
+public:
+    vector<vector<int>> merge(vector<vector<int>>& intervals) {
+        if(intervals.size() == 0){
+            return {};
+        }
+
+        sort(intervals.begin(),intervals.end());//默认按照左端点排列，即每一行的首地址所存放的数
+        //排位序后可合并的区间一定是连续的，故只需要判断相邻区间的是否存在连接处即可。
+        vector<vector<int>> ans;
+
+        for(int i = 0; i < intervals.size(); i++){
+            int l = intervals[i][0], r = intervals[i][1];
+            if(ans.empty() || ans.back()[1] < l){//没有重合，back返回最后一位元素，这里是返回最后加入的Vector
+                ans.push_back({l, r});//直接加入答案
+            }else{
+                ans.back()[1] = max(ans.back()[1], r);//发生重合,更新右边界
+            }
+        }
+
+        return ans;
+    }
+};
