@@ -1,0 +1,37 @@
+class Solution {
+public:
+    vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& newInterval) {
+        if(intervals.size() == 0){
+            intervals.push_back(newInterval);
+            return intervals;
+        }
+        if(newInterval.size() == 0){
+            return intervals;
+        }
+
+        int l = newInterval[0], r = newInterval[1];
+        bool flag = false;//表示是否有区间与其产生交集
+        vector<vector<int>> ans;
+        
+        for(const auto& arr : intervals){
+            if(arr[0] > r){
+                if(!flag){//此时可能是new不与任何区间相交，且从这个区间开始所有区间都在new的右侧，则此时直接将new加入答案即可
+                    ans.push_back({l, r});//还有一种情况就是new合并区间完成，且不是最后一个区间，这个区间就是合并区间的下一个区间，则此时直接将new加入答案即可
+                    flag = true;
+                }
+                ans.push_back(arr);
+            }else if(arr[1] < l){
+                ans.push_back(arr);
+            }else{
+                l = min(l, arr[0]);
+                r = max(r, arr[1]);//合并区间，只要合并后不是最后的区间，就一定有区间的左侧大于合并区间的右侧，合并区间就会在这个时候完成合并并加入答案。
+            }
+        }
+
+        if(!flag){//new不与任何区间相交且为最后一个区间，或者，new合并区间后是最后一个区间
+            ans.push_back({l, r});
+        }
+
+        return ans;
+    }
+};
