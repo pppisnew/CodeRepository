@@ -1,0 +1,28 @@
+class Solution {
+public:
+    void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
+        if(m == 0){
+            nums1.pop_back();
+            nums1 = nums2;
+            return ;
+        }
+        if(n == 0){//特判为零的特殊情况
+            return ;
+        }
+
+        for(const int& x : nums2){//先直接合并到num1数组里面
+            nums1[m ++] = x;
+        }
+
+        for(int i = nums1.size() - 1; i > m + n; -- i){//根据大小去除不需要的后置0
+            if(nums1[i] == 0){
+                nums1.pop_back();
+            }else{
+                break;
+            }
+        }
+
+        sort(nums1.begin(), nums1.end());//排序返回
+        return ;
+    }
+};
