@@ -1,0 +1,56 @@
+class Solution {
+public:
+    int ans = 0;//记录答案数量
+    int n;
+public:
+    int countValidSelections(vector<int>& nums) {
+        n = nums.size();
+
+        int i = 0;
+        for(auto x : nums){
+            if(x == 0){//找到每一个0依次遍历所有情况
+                fun(nums, 1, i);
+                fun(nums, -1, i);
+            }
+            i ++;
+        }
+
+        return ans;
+    }
+
+    void fun(vector<int> nums, int dir, int idx){//注意nums不能是引用，因为会改变原本的值(吃了大亏)
+        while(idx >= 0 && idx < n){
+            idx += dir;//先加再判断
+            if(idx < 0 || idx >= n){
+                break;
+            }
+
+            if(nums[idx] > 0){
+                nums[idx] --;
+                idx -= dir;
+                dir = reDir(dir);//调转反向
+            }
+        }
+
+        bool flag = true;
+        for(int i = 0; i < n; i ++){
+            if(nums[i] != 0){//如果有数不为0则无效
+                flag = false;
+                break;
+            }
+        }
+
+        if(flag){
+            ans ++;
+        }
+        return ;
+    }
+
+    int reDir(int dir){
+        if(dir == 1){
+            return -1;
+        }else{
+            return 1;
+        }
+    }
+};
