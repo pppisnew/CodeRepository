@@ -1,0 +1,33 @@
+class Solution {
+public:
+    bool isZeroArray(vector<int>& nums, vector<vector<int>>& queries) {
+        int n = nums.size();
+        int diff[n + 2];
+
+        
+        for(int i = 0; i < n; i ++){
+            if(i == 0){
+                diff[0] = 0;//在这不会默认初始话为0
+                diff[i + 1] = nums[i];//diff的下标从1开始。
+            }else{
+                diff[i + 1] = nums[i] - nums[i - 1];
+            }
+        }
+
+        for(int i = 0; i < queries.size(); i ++){
+            int l = queries[i][0];
+            int r = queries[i][1];
+            diff[l + 1] --;//全部向右边移动一位，使得下标从0开始。
+            diff[r + 2] ++;//直接在O(1)的时间内让l-r区间内的数全部-1
+        }
+
+        for(int i = 1; i <= n; i ++){
+            diff[i] += diff[i - 1];
+            if(diff[i] > 0){//若此时还有值>0说明极限情况下原数组依旧无法转换为0数组。
+                return false;
+            }
+        }
+
+        return true;
+    }
+};
