@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int jump(vector<int>& nums) {
+        int n = nums.size();
+        int maxPos = 0;//记录能到达的最远的位置
+        int end = 0;//记录跳跃点
+        int ans = 0;//记录跳跃次数
+
+        for(int i = 0; i < n - 1; i ++){
+            maxPos = max(maxPos, i + nums[i]);//每次都更新最远能到达的位置
+            if(i == end){//当i来到上一次记录的最佳跳跃点
+                end = maxPos;//跳跃到最远位置
+                ++ ans;//跳跃次数加一
+            }
+        }
+
+        return ans;
+    }
+};
