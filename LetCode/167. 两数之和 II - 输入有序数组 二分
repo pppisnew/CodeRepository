@@ -1,0 +1,57 @@
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& numbers, int target) {
+        int n = numbers.size();
+        vector<int> ans(2);
+        if(n == 2){
+            ans[0] = 1;
+            ans[1] = 2;
+            return ans;
+        }
+
+        for(int i = 0; i < n; i ++){
+            if(i != 0 && numbers[i] == numbers[i - 1] && i != n - 1){//去重，为什么是i与i-1比较？因为这样比较时i-1已经被判断过了，而i！=0则是避免越界，i！=n-1则是避免尾部特例
+                continue;
+            }
+
+            int x = target - numbers[i];
+            int idx = containsIdx(numbers, x);
+            if(idx >= 0 && idx < n && numbers[idx] == x){//筛选符合条件的idx
+                if(idx == i){//若idx == i时进行判断，这种情况一般是x与num[i]相同导致的。
+                    if(numbers[idx + 1] == x){//若有两个相同的数相邻，我所采取的的二分计算是会优先返回左侧的下标
+                        idx ++;//故判断右侧下标是否是相同数
+                    }else{
+                        continue;
+                    }
+                }
+
+                if(idx > i){//优先装入最小的下标
+                    ans[0] = i + 1;
+                    ans[1] = idx + 1;
+                    break;
+                }else{
+                    ans[0] = idx + 1;
+                    ans[1] = i + 1;
+                    break;
+                }
+            }
+        }
+
+        return ans;
+    }
+
+    int containsIdx(vector<int> nums, int x){//二分模板
+        int l = 1, r = nums.size();
+        
+        while(l < r){
+            int mid = l + r >> 1;
+            if(nums[mid] >= x){
+                r = mid;
+            }else{
+                l = mid + 1;
+            }
+        }
+
+       return l;
+    }
+};
