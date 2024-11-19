@@ -1,0 +1,23 @@
+class Solution {
+public:
+    vector<int> plusOne(vector<int>& digits) {
+        int n = digits.size();
+        if(n == 1){//判断只有一位数的情况
+            if(digits[0] + 1 < 10){
+                digits[0] ++;
+                return digits;
+            }
+        }
+
+       for(int i = n - 1; i >= 0; -- i){//整体加一后没有变长的情况，惊为天人的写法
+            digits[i] ++;
+            digits[i] %= 10;
+            if(digits[i] != 0) return digits;//说明这次+1并没有使其进位，直接返回即可
+       }
+
+        vector<int> ans(n + 1);//整体+1后变长的情况，也是惊为天人的写法，后面必为0这种惊人又正常的思路。此时是到了最后都在进位，即所有位上的数都进了一位即本位上都是0.
+        ans[0] = 1;//最高位为1
+
+        return ans;
+    }
+};
