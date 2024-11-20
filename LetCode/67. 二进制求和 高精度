@@ -1,0 +1,21 @@
+class Solution {
+public:
+    string addBinary(string a, string b) {
+        int add = 0;//进位
+        string ans = "";//记录答案
+        for(int i = a.length() - 1, j = b.length() - 1; i >= 0 || j >= 0; -- i, -- j){//遍历a，b中的所有字符
+            int sum = add;//先加进位
+            sum += i >= 0 ? a[i] - '0' : 0;//i, j不越位的情况下再相加
+            sum += j >= 0 ? b[j] - '0' : 0;//避免有一方先为零，毕竟两字符串长度不一定相等
+            char c = (sum % 2) + '0';//String 不能直接与 int相加
+            ans = c + ans;//从头加入新元素，这样可以避免翻转
+            add = sum / 2;//因为是二进制所以是/2
+        }
+
+        if(add == 1){//如果最高位还有进位
+            ans = "1" + ans;
+        }
+
+        return ans;
+    }
+};
