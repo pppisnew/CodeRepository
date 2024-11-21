@@ -1,0 +1,43 @@
+class Solution {
+public:
+    vector<int> largestDivisibleSubset(vector<int>& nums) {
+        int n = nums.size();
+        if(n <= 1){
+            return nums;
+        }
+        vector<int> dp(n, 1);//记录以nums[i]为最大整数的子集的大小
+
+        sort(nums.begin(), nums.end());
+        int maxSize = 1;//记录子串长度
+        int maxVal = dp[0]; //记录子串最大值
+        for(int i = 1; i < n; i ++){
+             for(int j = 0; j < i; j ++){
+                if(nums[i] % nums[j] == 0){
+                    dp[i] = max(dp[i], dp[j] + 1);//循环结束后dp[i]记录的就是以num[i]结尾的包含num[i]在内的最长子集的长度 
+                }
+             }
+
+             if(dp[i] > maxSize){//更新长度
+                maxSize = dp[i];
+                maxVal = nums[i];//因为是排好序的所以此时的num[i]一定比maxVal大
+             }
+        }
+
+        vector<int> ans;
+        if(maxSize == 1){//最长子集的长度就为一,即数组内所有值都不满足条件.
+            ans.push_back(nums[0]);
+            return ans;
+        }
+
+        for(int i = n - 1; i >= 0 && maxSize > 0; -- i){
+            if(dp[i] == maxSize && maxVal % nums[i] == 0){//当dp值等于maxSize,且取模为0时,说明dp[i]是记录的最长子集长度,且最大值为maxVal,即里面的所有值都会被maxVal取模为0.
+                //cout << maxVal << " " << nums[i] << endl;
+                ans.push_back(nums[i]);//加入答案
+                maxVal = nums[i];//maxVal的值第一次等于nums[i]第二次开始就是代表上一位记录的数.
+                maxSize --;//长度-1,寻找下一位
+            }
+        }
+
+        return ans;
+    }
+};
