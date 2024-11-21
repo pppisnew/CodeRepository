@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int integerReplacement(int n) {
+        long long x = n, ans = 0;//=long long避免+1爆int
+        while(x > 1){
+            if(x % 2 == 0){//如果为偶数则只有一个操作
+                x /= 2;
+                //cout << x << endl;
+                ans ++;
+                if(x == 1)
+                    break;
+            }else{
+            //若为奇数则要注意处理后尾数为4的情况例如此时尾数为5,因为尾数为4的数 / 2后得到的结果尾数可能为7也可能为2,若为7则还需多走一步,此时不如不将其处理为4而是+1处理为6,可以少走一步
+               if(((x - 1) / 2) % 2 == 0 || (x - 1) == 2){//特判为2的情况; - 1 / 2 再 % 2,避免/2后尾数为7的情况
+                x --;
+               }else{
+                x ++;
+               }
+
+                //cout << x << endl;
+                ans ++;
+            }
+        }
+
+        return ans;
+    }
+};
