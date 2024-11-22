@@ -1,0 +1,18 @@
+class Solution {
+public:
+    const int N = 0x3f3f3f3f;
+    typedef long long ll;
+        int mySqrt(int x) {
+            ll l = 0, r = N;
+            while(r - l > 0){//左临近二分,mid从答案的左侧靠近,符合题目要求的不论小数多少都直接省略的要求
+                ll mid = l + r + 1 >> 1;
+                if(mid * mid <= x){
+                    l = mid;
+                }else{
+                r = mid - 1;
+            }
+        }
+
+        return l;
+    }
+};
