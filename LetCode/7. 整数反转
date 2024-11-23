@@ -1,0 +1,26 @@
+class Solution {
+public:
+    const int N = 214748364;//取最大int的前9位，方便判断是否溢出
+    int reverse(int x) {
+        if(x == 0){
+            return 0;
+        }
+
+        int ans = 0;
+        while(x != 0){//因为有负数的存在所有条件为！= 0
+            int temp = x % 10;
+            if(ans > N || (ans == N && temp > 7)){//判断正数溢出
+                return 0;
+            }
+
+            if(ans < - N || (ans == - N && temp < - 8)){//判断负数溢出
+                return 0;
+            }
+
+            ans = ans * 10 + temp;//反转，低位的数放在高位
+            x /= 10;
+        }
+
+        return ans;
+    }
+};
