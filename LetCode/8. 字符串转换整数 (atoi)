@@ -1,0 +1,55 @@
+class Solution {
+public:
+    const int MAX = 2147483647, MIN = -2147483648;
+    int myAtoi(string s) {
+        bool isNum = false;//判断是否是合法的数
+        bool isFu = false;//将所有的数按正数来算/负数会不会好些? 判断数是否是负数
+        bool isPath = false;//判断是否已经出现过-/+
+        long long ans = 0;
+
+        for(const char& c : s){
+            if((c >= 'a' && c <= 'z') || c == '.'){
+                break;
+            }
+            if((isPath || isNum) && (c == '-' || c == '+')){
+                break;
+            }
+            if((isNum || isPath) && c == ' '){
+                break;
+            }
+            if(!isNum && c == ' '){
+                continue;
+            }//所有的不是合法数的情况
+
+            if(!isNum && (c == '-' || c == '+')){
+                if(c == '-'){
+                    isFu = true;
+                }
+                isPath = true;
+                continue;
+            }//判断正负并打上标记
+            if(c >= '0' && c <= '9'){
+                ans = ans * 10 + (c - '0');
+                isNum = true;
+
+                if(ans >= MAX){
+                    break;
+                }
+            }//记录合法的数并判断是否越界
+        }
+
+        if(isFu){
+           if(ans > MAX){//不考虑符号,大于MAX的合法负数只有MIN
+            ans = MIN;
+           }else{
+            ans = -ans;
+           }
+        }else{
+            if(ans >= MAX){//做正数的越界判断
+                ans = MAX;
+            }
+        }//正负合法判断
+
+        return ans;
+    }
+};
