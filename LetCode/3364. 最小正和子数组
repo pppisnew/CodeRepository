@@ -1,0 +1,39 @@
+class Solution {
+public:
+    const int N = 0x3f3f3f3f;
+    
+    int minimumSumSubarray(vector<int>& nums, int l, int r) {
+        int n = nums.size();
+        
+
+        int ans = N;
+            
+        for(int i = 0; i < n; i ++){
+            int sum = 0;
+            if(l + i > n){//如果长度小于要求的最小数组长度
+                break;
+            }
+            
+            for(int j = i; j < l + i && j < n; j ++){//先至少将子数组的长度拉倒最小要求
+                //cout << i << " : " << j << endl;
+                sum += nums[j];
+            }
+
+            if(sum > 0){//对此时的nums进行判断
+                ans = min(sum, ans);
+            }
+
+            for(int j = i + l; j < i + r && j < n; j ++){//对可延伸部分进行判断
+                sum += nums[j];
+                if(sum > 0){//对满足要求的sum进行处理
+                    ans = min(sum, ans);
+                }
+            }
+        }
+
+        if(ans == N){//说明没有满足要求的sum
+            return -1;
+        }
+        return ans;
+    }
+};
