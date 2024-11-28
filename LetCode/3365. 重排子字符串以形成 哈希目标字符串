@@ -1,0 +1,32 @@
+class Solution {
+public:
+    bool isPossibleToRearrange(string s, string t, int k) {
+        unordered_map<string, int> mp(k);
+        if(t.size() % k != 0){
+            return false;
+        }
+        
+        int p = t.size() / k;//按要求需要分的子字符串数量
+        //cout << "t : ";
+        for(int i = 0; i < t.size(); i += p){//反过来,先从要求合成字符串中提取要求的子字符串
+            string str = t.substr(i, p);
+            //cout << str << " "; 
+            mp[str] ++;//将其做好标记
+        }
+        //cout << endl;
+
+        //cout << "s : ";
+        for(int i = 0; i < s.size(); i += p){//到要求拆分的字符串中一一匹配子字符串
+            string str = s.substr(i, p);//提取符合长度要求的子字符串
+            //cout << str << " ";
+            if(mp[str] <= 0){//进行匹配
+                return false;
+            }else{
+                mp[str] --;
+            }
+        }
+
+        return true;
+    }
+
+};
