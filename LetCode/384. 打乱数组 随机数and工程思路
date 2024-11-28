@@ -1,0 +1,32 @@
+class Solution {
+public:
+    vector<int> rcd;
+    int n;
+    Solution(vector<int>& nums) {//初始化数组
+        rcd = nums;
+        n = nums.size();
+    }
+    
+    vector<int> reset() {//返回原数组
+        return rcd;
+    }
+    
+    vector<int> shuffle() {//返回随机修改位置后的数组
+        vector<int> rad = rcd;//借助临时数组,这样原数组无需改动
+        for(int i = 0; i < n; i ++){
+            swap(rad[i], rad[getRand(i, n - 1)]);//利用随机数生成器
+        }
+        return rad;
+    }
+
+    int getRand(int a, int b){
+        return (rand() % (b - a + 1)) + a;//生成[a,b]的随机数
+    }
+};
+
+/**
+ * Your Solution object will be instantiated and called as such:
+ * Solution* obj = new Solution(nums);
+ * vector<int> param_1 = obj->reset();
+ * vector<int> param_2 = obj->shuffle();
+ */
